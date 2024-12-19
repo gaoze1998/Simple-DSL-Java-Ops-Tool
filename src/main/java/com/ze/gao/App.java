@@ -1,5 +1,6 @@
 package com.ze.gao;
 
+import com.ze.gao.parser.SimpleParser;
 import com.ze.gao.parser.SpelVisitor;
 import com.ze.gao.parser.base.SimpleParserLexer;
 import com.ze.gao.parser.base.SimpleParserParser;
@@ -8,8 +9,11 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Hello world!
@@ -95,12 +99,26 @@ public class App {
     }
 
     public static void main( String[] args ) throws NoSuchMethodException {
-        String input = "purchasePart.items[id=12 and available=getTrue(id)].count = purchasePart.items[id=11].count";
-        SimpleParserLexer lexer = new SimpleParserLexer(CharStreams.fromString(input));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        SimpleParserParser parser = new SimpleParserParser(tokens);
-        SimpleParserParser.StatementContext tree = parser.statement();
+        String input = "purchasePart.items[id=12 and available=getTrue(id) and available=executeGroovy('getTrue', id)].count = purchasePart.items[id=11].count";
 
+        Contract contract = getContract();
+
+        System.out.println("Original DSL: " + input);
+        System.out.printf("before: %s%n", contract);
+
+        Map<String, Method> methodMap = new HashMap<>();
+        methodMap.put("getTrue", Utils.class.getMethod("getTrue", Long.class));
+        SimpleParser parser = new SimpleParser(contract, methodMap);
+        parser.addGroovy("getTrue", """
+                return args[0] == 12;
+                """);
+        Object result = parser.execute(input);
+
+        System.out.println("Converted SpEL: " + parser.getLastSpel());
+        System.out.printf("after: %s%n", contract);
+    }
+
+    private static Contract getContract() {
         Contract contract = new Contract();
         contract.setPurchasePart(new PurchaseEntity());
         contract.getPurchasePart().setItems(new ArrayList<>());
@@ -115,20 +133,7 @@ public class App {
         item2.setId(12L);
         item2.setAvailable(true);
         contract.getPurchasePart().getItems().add(item2);
-        System.out.printf("before: %s%n", contract);
-
-        StandardEvaluationContext context = new StandardEvaluationContext(contract);
-        context.registerFunction("getTrue", Utils.class.getMethod("getTrue", Long.class));
-        SpelVisitor visitor = new SpelVisitor(context);
-        String spelExpression = visitor.visit(tree);
-
-        System.out.println("Original DSL: " + input);
-        System.out.println("Converted SpEL: " + spelExpression);
-
-        SpelExpressionParser parser1 = visitor.getParser();
-
-        Object value = parser1.parseExpression(spelExpression).getValue(context);
-        System.out.printf("after: %s%n", contract);
+        return contract;
     }
 
     public static class Utils {
