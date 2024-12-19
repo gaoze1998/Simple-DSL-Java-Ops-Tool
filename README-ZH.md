@@ -4,6 +4,7 @@
 
 ## 项目亮点
 - **DSL 转换为 SpEL**：将自定义 DSL 表达式转换为 Spring 表达式语言 (SpEL)。
+- **支持 1 个 DSL 转换为 N 个 SpEL**：将一个 DSL 表达式转换为多个 SpEL 表达式。
 - **动态方法调用**：支持动态调用 Java 方法和 Groovy 脚本。
 
 ## 特性

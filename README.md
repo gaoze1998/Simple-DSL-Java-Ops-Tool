@@ -4,6 +4,7 @@
 
 ## Project Highlights
 - **DSL to SpEL Conversion**: Convert custom DSL expressions to Spring Expression Language (SpEL).
+- **Support 1 DSL to N SpEL**: Convert one DSL expression to multiple SpEL expressions.
 - **Dynamic Method Invocation**: Support for invoking Java methods and Groovy scripts dynamically.
 
 ## Features
