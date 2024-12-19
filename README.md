@@ -34,5 +34,71 @@
     - Modify the `input` string in `App.java` to test different DSL expressions.
     - Run the application to see the converted SpEL and the effect on the `Contract` object.
 
+## Syntax Description
+```g4
+grammar SimpleParser;
+
+// Top-level grammar rules
+statement: assignment | expression ;
+
+// Assignment statement
+assignment: leftExpression '=' rightExpression ;
+
+// Left-hand side expression (can only be a path expression)
+leftExpression: pathExpression ;
+
+// Right-hand side expression (supports all expression types)
+rightExpression: expression ;
+
+// Expression
+expression: pathExpression
+          | literal
+          | functionCall ;
+
+// Path expression
+pathExpression: identifier ( '.' pathComponent )* ;
+pathComponent: identifier | arrayAccess ;
+
+// Array access and filtering
+arrayAccess: identifier '[' filterExpression ']' ;
+filterExpression: simpleFilter
+                | numberFilter
+                | wildcardFilter
+                | functionCall
+                | logicalExpression ;
+
+numberFilter: numberLiteral ;
+wildcardFilter: '*' ;
+
+// Simple filter
+simpleFilter: identifier ':' literal ;
+
+// Logical expression
+logicalExpression: condition ( logicalOperator condition )* ;
+condition: identifier comparisonOperator ( literal | expression ) ;
+logicalOperator: 'and' | 'or' ;
+comparisonOperator: '=' | '!=' | '>' | '<' | '>=' | '<=' ;
+
+// Function call
+functionCall: identifier '(' functionArgs ')' ;
+functionArgs: functionArg ( ',' functionArg )* ;
+functionArg: literal | pathExpression ;
+
+// Basic elements
+identifier: LETTER ( LETTER | DIGIT )* ;
+LETTER: [A-Za-z_] ;
+DIGIT: [0-9] ;
+
+// Literal
+literal: stringLiteral | numberLiteral ;
+stringLiteral: '\'' (~'\'' | '\\\'' | '\\\\')* '\'' ; // Supports escape characters
+numberLiteral: DIGIT+ ( '.' DIGIT+ )? ;
+
+// Ignore whitespace and comments
+WS: [ \t\r\n]+ -> skip ;
+SL_COMMENT: '//' ~[\r\n]* -> skip ;
+ML_COMMENT: '/*' .*? '*/' -> skip ;
+```
+
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
