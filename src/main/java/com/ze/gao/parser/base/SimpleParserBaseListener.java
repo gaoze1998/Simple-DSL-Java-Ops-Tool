@@ -1,4 +1,4 @@
-// Generated from /Users/ze.gao/Documents/work/general-data-ops-tool/src/main/java/com/ze/gao/parser/base/SimpleParser.g4 by ANTLR 4.13.2
+// Generated from /Users/ze.gao/Documents/work/Simple-DSL-Java-Ops-Tool/src/main/java/com/ze/gao/parser/base/SimpleParser.g4 by ANTLR 4.13.2
 package com.ze.gao.parser.base;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -120,6 +120,30 @@ public class SimpleParserBaseListener implements SimpleParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFilterExpression(SimpleParserParser.FilterExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNumberFilter(SimpleParserParser.NumberFilterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNumberFilter(SimpleParserParser.NumberFilterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterWildcardFilter(SimpleParserParser.WildcardFilterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitWildcardFilter(SimpleParserParser.WildcardFilterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

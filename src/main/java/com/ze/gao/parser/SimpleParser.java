@@ -11,15 +11,15 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SimpleParser {
     private final StandardEvaluationContext context;
     private final SpelVisitor visitor;
     @Getter
-    private String lastSpel;
+    private List<String> lastSpels;
 
-    @Getter
     private static final Map<String, String> GROOVY_METHOD_MAP = new HashMap<>();
 
     public SimpleParser(Object object, Map<String, Method> methodMap) {
@@ -48,11 +48,17 @@ public class SimpleParser {
         SimpleParserParser parser = new SimpleParserParser(tokens);
         SimpleParserParser.StatementContext tree = parser.statement();
 
-        String spel = visitor.visit(tree);
+        List<String> spels = visitor.visit(tree);
 
-        this.lastSpel = spel;
+        this.lastSpels = spels;
 
-        return visitor.getParser().parseExpression(spel).getValue(context);
+        return spels.stream().map(s -> {
+            try {
+                return visitor.getParser().parseExpression(s).getValue(context);
+            } catch (Exception e) {
+                return e;
+            }
+        }).toList();
     }
 
     public void addGroovy(String name, String script) {

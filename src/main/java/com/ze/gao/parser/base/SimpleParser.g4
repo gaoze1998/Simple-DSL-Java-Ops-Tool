@@ -24,8 +24,13 @@ pathComponent: identifier | arrayAccess ;
 // 数组访问与过滤
 arrayAccess: identifier '[' filterExpression ']' ;
 filterExpression: simpleFilter
+                | numberFilter
+                | wildcardFilter
                 | functionCall
                 | logicalExpression ;
+
+numberFilter: numberLiteral ;
+wildcardFilter: '*' ;
 
 // 简单过滤器
 simpleFilter: identifier ':' literal ;

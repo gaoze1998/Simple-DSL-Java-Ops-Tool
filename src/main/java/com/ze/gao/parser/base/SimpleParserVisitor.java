@@ -1,4 +1,4 @@
-// Generated from /Users/ze.gao/Documents/work/general-data-ops-tool/src/main/java/com/ze/gao/parser/base/SimpleParser.g4 by ANTLR 4.13.2
+// Generated from /Users/ze.gao/Documents/work/Simple-DSL-Java-Ops-Tool/src/main/java/com/ze/gao/parser/base/SimpleParser.g4 by ANTLR 4.13.2
 package com.ze.gao.parser.base;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -64,6 +64,18 @@ public interface SimpleParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFilterExpression(SimpleParserParser.FilterExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SimpleParserParser#numberFilter}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumberFilter(SimpleParserParser.NumberFilterContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SimpleParserParser#wildcardFilter}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWildcardFilter(SimpleParserParser.WildcardFilterContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SimpleParserParser#simpleFilter}.
 	 * @param ctx the parse tree

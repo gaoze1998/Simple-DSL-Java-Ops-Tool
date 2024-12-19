@@ -1,13 +1,6 @@
 package com.ze.gao;
 
 import com.ze.gao.parser.SimpleParser;
-import com.ze.gao.parser.SpelVisitor;
-import com.ze.gao.parser.base.SimpleParserLexer;
-import com.ze.gao.parser.base.SimpleParserParser;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -99,6 +92,7 @@ public class App {
     }
 
     public static void main( String[] args ) throws NoSuchMethodException {
+        // String input = "purchasePart.items[*].count = purchasePart.items[id=11].count";
         String input = "purchasePart.items[id=12 and available=getTrue(id) and available=executeGroovy('getTrue', id)].count = purchasePart.items[id=11].count";
 
         Contract contract = getContract();
@@ -114,7 +108,7 @@ public class App {
                 """);
         Object result = parser.execute(input);
 
-        System.out.println("Converted SpEL: " + parser.getLastSpel());
+        System.out.println("Converted SpEL: " + parser.getLastSpels());
         System.out.printf("after: %s%n", contract);
     }
 

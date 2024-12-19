@@ -1,4 +1,4 @@
-// Generated from /Users/ze.gao/Documents/work/general-data-ops-tool/src/main/java/com/ze/gao/parser/base/SimpleParser.g4 by ANTLR 4.13.2
+// Generated from /Users/ze.gao/Documents/work/Simple-DSL-Java-Ops-Tool/src/main/java/com/ze/gao/parser/base/SimpleParser.g4 by ANTLR 4.13.2
 package com.ze.gao.parser.base;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -97,6 +97,26 @@ public interface SimpleParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFilterExpression(SimpleParserParser.FilterExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SimpleParserParser#numberFilter}.
+	 * @param ctx the parse tree
+	 */
+	void enterNumberFilter(SimpleParserParser.NumberFilterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SimpleParserParser#numberFilter}.
+	 * @param ctx the parse tree
+	 */
+	void exitNumberFilter(SimpleParserParser.NumberFilterContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SimpleParserParser#wildcardFilter}.
+	 * @param ctx the parse tree
+	 */
+	void enterWildcardFilter(SimpleParserParser.WildcardFilterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SimpleParserParser#wildcardFilter}.
+	 * @param ctx the parse tree
+	 */
+	void exitWildcardFilter(SimpleParserParser.WildcardFilterContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SimpleParserParser#simpleFilter}.
 	 * @param ctx the parse tree
