@@ -2,6 +2,7 @@ package com.ze.gao.parser;
 
 import com.ze.gao.parser.base.SimpleParserBaseVisitor;
 import com.ze.gao.parser.base.SimpleParserParser;
+import lombok.Getter;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
@@ -11,11 +12,9 @@ import java.util.List;
 public class SpelVisitor extends SimpleParserBaseVisitor<String> {
     private final StandardEvaluationContext context;
 
-    private static final SpelExpressionParser PARSER = new SpelExpressionParser();
+    @Getter
+    private final SpelExpressionParser parser = new SpelExpressionParser();
 
-    public SpelExpressionParser getParser() {
-        return PARSER;
-    }
     public SpelVisitor(StandardEvaluationContext context) {
         this.context = context;
     }
@@ -65,10 +64,10 @@ public class SpelVisitor extends SimpleParserBaseVisitor<String> {
         for (SimpleParserParser.PathComponentContext component : ctx.pathComponent()) {
             path.append('.').append(visitPathComponent(component));
             String el = path.toString();
-            Class<?> valueType = PARSER.parseExpression(el).getValueType(context);
+            Class<?> valueType = parser.parseExpression(el).getValueType(context);
 
             if (valueType != null && valueType.isAssignableFrom(ArrayList.class)) {
-                List<?> value = PARSER.parseExpression(el).getValue(context, List.class);
+                List<?> value = parser.parseExpression(el).getValue(context, List.class);
                 if (value == null || value.size() == 0) {
                     throw new RuntimeException("array access is null [%s]".formatted(el));
                 }
@@ -189,7 +188,7 @@ public class SpelVisitor extends SimpleParserBaseVisitor<String> {
 
     @Override
     public String visitStringLiteral(SimpleParserParser.StringLiteralContext ctx) {
-        return ctx.getText().substring(1, ctx.getText().length() - 1);
+        return ctx.getText();
     }
 
     @Override
