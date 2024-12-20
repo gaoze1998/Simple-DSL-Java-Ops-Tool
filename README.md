@@ -1,4 +1,4 @@
-# Project Name
+# Simple Java Ops DSL
 
 [中文文档](README-ZH.md)
 
